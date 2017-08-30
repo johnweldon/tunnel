@@ -49,6 +49,10 @@ func main() {
 			User:    sshUser,
 			Timeout: time.Second * 30,
 			Auth:    []ssh.AuthMethod{ssh.PublicKeys(privateKey(sshKeyFile))},
+			HostKeyCallback: func(host string, conn net.Addr, key ssh.PublicKey) error {
+				log.Printf("Insecure Host Key callback: %s: %+v\n%+v", host, conn, key)
+				return nil
+			},
 		},
 	}
 
