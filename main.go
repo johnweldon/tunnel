@@ -83,11 +83,14 @@ func (tunnel *Tunnel) Start() error {
 	}
 	defer listener.Close()
 
+	log.Printf("listening for connections on %q", listener.Addr().String())
+
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
 			return err
 		}
+		log.Printf("accept connection from %q", conn.RemoteAddr().String())
 		go tunnel.forward(conn)
 	}
 }
